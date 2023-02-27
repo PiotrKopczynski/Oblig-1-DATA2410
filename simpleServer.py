@@ -3,16 +3,12 @@ from socket import *
 import sys # In order to terminate the program
 
 #Prepare a sever socket
-#172.20.35.32 
-#10.47.15.70
-#192.168.56.1
-#http://192.168.56.1:12220/index.html
 serverSocket = socket(AF_INET, SOCK_STREAM) 
 serverPort = 12220
 serverName = gethostbyname(gethostname())
-try:
+try: 
         serverSocket.bind((serverName,serverPort))
-except:
+except: # Handle bind error exception
     print("Bind failed. Error: ")
     sys.exit()
     
@@ -24,7 +20,7 @@ while True:
     connectionSocket, addr = serverSocket.accept()
     try:
         message = connectionSocket.recv(1024).decode()
-        print(message)
+        print("GET request: ", message)
         filename = message.split()[1]
         filename = filename[1:]
         f = open(filename)

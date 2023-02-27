@@ -5,14 +5,18 @@ import time
 
 def now():
     """
-    returns time of day
+    Function: Returns time of day.
     """
     return time.ctime(time.time())
 
 
 def handleClient(connectionSocket):
     """
-    a client handler function
+    Function: A client handler function that responds to a HTTP GET request.
+    Input: A client socket.
+    Exception: The function handles the exeption where the client inputs a
+    filename that does not exist. An appropriate HTTP error is sent back to
+    the client and the client socket is closed.
     """
 
     while True:
@@ -56,7 +60,7 @@ def main():
 
     try:
         serverSocket.bind((serverName,serverPort))
-    except:
+    except: # Handle bind error exception
         print("Bind failed. Error: ")
         sys.exit()
 

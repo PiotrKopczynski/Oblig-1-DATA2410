@@ -1,33 +1,32 @@
 from socket import *
 import sys
 
+#Get inputs from command line
 serverIP = sys.argv[1]
 serverPort = int(sys.argv[2])
 filename = sys.argv[3]
-#python3 client.py 192.168.56.1 12220 index.html
-#C:\Users\Piotkop\Documents\DATA2410\Oblig-1
 
 connection = socket(AF_INET, SOCK_STREAM)
 
 try: 
     connection.connect((serverIP, serverPort))
-except Exception as e:
-    print(e)
+except:
     print("ConnectionError")
     sys.exit()
-connection.send(("GET /" + filename + " HTTP/1.1\n\n").encode())
+connection.send(("GET /" + filename + " HTTP/1.1\n\n").encode()) # Send HTTP GET request
 
-response = ""
+response = "" # Variable for storing the server response
 while True:
     data = connection.recv(1024).decode()
     print(data)
-    if not data:
+    if not data: # Break the loop if the response has ended
         break
     response += data
 
-connection.close()
+connection.close() #close the socket
 
 responseList = response.split('\n\n')
 
+# Print status code and the full server response
 print("status code: ", responseList[0])
 print("server response: ", responseList[1:])
